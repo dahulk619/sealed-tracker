@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 import * as cheerio from 'cheerio';
 
 const supabaseUrl = "https://rifbdmmktwacmfehodgk.supabase.co"; 
-const supabaseKey = "PASTE_YOUR_MASSIVE_SERVICE_ROLE_SECRET_KEY_HERE"; 
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpZmJkbW1rdHdhY21mZWhvZGdrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MzAxODkzNiwiZXhwIjoyMDk4NTk0OTM2fQ.DgIBhokWlUm3goZoxTc_gtCkNJz3euxKvG7og1I0crY"; 
 
 // Safety fallback: if the placeholder text isn't replaced yet, mock a dummy object so Vercel compiles seamlessly
 const isPlaceholder = supabaseKey.includes("PASTE_YOUR");
