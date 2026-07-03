@@ -3,89 +3,33 @@ export const dynamic = 'force-dynamic';
 import { createClient } from '@supabase/supabase-js';
 import * as cheerio from 'cheerio';
 
-export const dynamic = 'force-dynamic';
-
-import { createClient } from '@supabase/supabase-js';
-import * as cheerio from 'cheerio';
-
-// PASTE YOUR ACTUAL COPIED CREDENTIALS DIRECTLY INSIDE THE QUOTES BELOW
 const supabaseUrl = "https://rifbdmmktwacmfehodgk.supabase.co"; 
-const supabaseKey = "PASTE_YOUR_MASSIVE_SERVICE_ROLE_SECRET_KEY_HERE"; 
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpZmJkbW1rdHdhY21mZWhvZGdrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MzAxODkzNiwiZXhwIjoyMDk4NTk0OTM2fQ.DgIBhokWlUm3goZoxTc_gtCkNJz3euxKvG7og1I0crY"; 
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function GET(request) {
   try {
-    // 1. Fetch every sealed product link stored in your database
     const { data: products, error } = await supabase.from('sealed_inventory').select('*');
     if (error) throw error;
 
-    // 2. Loop through every item you have added
     for (const product of products) {
-      console.log(`Checking live market price for: ${product.product_name}`);
-
-      // 3. Fetch the raw HTML webpage from your TCGplayer URL link
       const response = await fetch(product.tcgplayer_url, {
         headers: { 
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' 
         }
       });
       const html = await response.text();
-      
-      // 4. Use Cheerio to parse through the website layout text
       const $ = cheerio.load(html);
 
-      // Locate the element box on TCGplayer that houses the market price numbers
       const marketPriceText = $('.price-point__price').first().text().replace('$', '').trim();
       const livePrice = parseFloat(marketPriceText);
 
-      // 5. If a valid price number was successfully scraped, overwrite your database row
       if (!isNaN(livePrice)) {
         await supabase
           .from('sealed_inventory')
           .update({ current_market_price: livePrice, last_updated: new Date() })
           .eq('id', product.id);
-          
-        console.log(`Successfully updated database! New Price: $${livePrice}`);
-      }
-    }
-
-    return new Response(JSON.stringify({ success: true, message: 'Prices refreshed!' }), { status: 200 });
-  } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
-  }
-}
-    // 1. Fetch every sealed product link stored in your database
-    const { data: products, error } = await supabase.from('sealed_inventory').select('*');
-    if (error) throw error;
-
-    // 2. Loop through every item you have added
-    for (const product of products) {
-      console.log(`Checking live market price for: ${product.product_name}`);
-
-      // 3. Fetch the raw HTML webpage from your TCGplayer URL link
-      const response = await fetch(product.tcgplayer_url, {
-        headers: { 
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' 
-        }
-      });
-      const html = await response.text();
-      
-      // 4. Use Cheerio to parse through the website layout text
-      const $ = cheerio.load(html);
-
-      // Locate the element box on TCGplayer that houses the market price numbers
-      const marketPriceText = $('.price-point__price').first().text().replace('$', '').trim();
-      const livePrice = parseFloat(marketPriceText);
-
-      // 5. If a valid price number was successfully scraped, overwrite your database row
-      if (!isNaN(livePrice)) {
-        await supabase
-          .from('sealed_inventory')
-          .update({ current_market_price: livePrice, last_updated: new Date() })
-          .eq('id', product.id);
-          
-        console.log(`Successfully updated database! New Price: $${livePrice}`);
       }
     }
 
