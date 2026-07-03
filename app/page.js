@@ -6,7 +6,7 @@ import { PlusCircle, RefreshCw, TrendingUp, DollarSign, Package, ExternalLink } 
 // Connect securely to your Supabase project layout
 const supabaseUrl = "https://rifbdmmktwacmfehodgk.supabase.co";
 // NOTE: For front-end safety in Next.js public builds, use your standard public 'anon' key here if you experience issues.
-const supabaseKey = "PASTE_YOUR_MASSIVE_SERVICE_ROLE_SECRET_KEY_HERE"; 
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpZmJkbW1rdHdhY21mZWhvZGdrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MzAxODkzNiwiZXhwIjoyMDk4NTk0OTM2fQ.DgIBhokWlUm3goZoxTc_gtCkNJz3euxKvG7og1I0crY"; 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function Dashboard() {
