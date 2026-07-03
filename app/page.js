@@ -5,8 +5,7 @@ import { PlusCircle, RefreshCw, TrendingUp, DollarSign, Package, ExternalLink } 
 
 // Connect securely to your Supabase project layout
 const supabaseUrl = "https://rifbdmmktwacmfehodgk.supabase.co";
-// NOTE: For front-end safety in Next.js public builds, use your standard public 'anon' key here if you experience issues.
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpZmJkbW1rdHdhY21mZWhvZGdrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MzAxODkzNiwiZXhwIjoyMDk4NTk0OTM2fQ.DgIBhokWlUm3goZoxTc_gtCkNJz3euxKvG7og1I0crY"; 
+const supabaseKey = "PASTE_YOUR_MASSIVE_SERVICE_ROLE_SECRET_KEY_HERE"; 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function Dashboard() {
@@ -55,7 +54,7 @@ export default function Dashboard() {
         tcgplayer_url: url,
         quantity: parseInt(qty),
         cost_basis: parseFloat(cost),
-        current_market_price: parseFloat(cost) // start it off at cost
+        current_market_price: parseFloat(cost)
       }
     ]);
 
@@ -77,7 +76,7 @@ export default function Dashboard() {
     <div style={{ minHeight: '100vh', backgroundColor: '#0f172a', color: '#f8fafc', fontFamily: 'sans-serif', padding: '2rem' }}>
       
       {/* HEADER SECTION */}
-      <div style={{ display: 'flex', justifyContent: 'between', alignItems: 'center', marginBottom: '2rem', borderBottom: '1px solid #334155', paddingBottom: '1rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', borderBottom: '1px solid #334155', paddingBottom: '1rem' }}>
         <div>
           <h1 style={{ fontSize: '2rem', fontWeight: 'bold', margin: 0, color: '#38bdf8' }}>El PoKe pLuG</h1>
           <p style={{ color: '#94a3b8', margin: '0.25rem 0 0 0' }}>Sealed Product Portfolio Tracker</p>
@@ -87,7 +86,7 @@ export default function Dashboard() {
           disabled={syncing}
           style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: '#0284c7', color: 'white', border: 'none', padding: '0.75rem 1.2rem', borderRadius: '0.5rem', cursor: 'pointer', fontWeight: 'bold' }}
         >
-          <RefreshCw className={syncing ? 'animate-spin' : ''} size={18} />
+          <RefreshCw style={{ animation: syncing ? 'spin 1s linear infinite' : 'none' }} size={18} />
           {syncing ? 'Scraping TCGplayer...' : 'Sync Live Prices'}
         </button>
       </div>
